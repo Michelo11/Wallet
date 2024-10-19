@@ -1,0 +1,11 @@
+name: Wallet
+version: '1.0'
+main: me.michelemanna.wallet.WalletPlugin
+api-version: '1.21'
+authors: [ Michelo11 ]
+website: https://michelemanna.me
+commands:
+  wallet:
+    description: "Manage your wallet"
+depend:
+  - Vault

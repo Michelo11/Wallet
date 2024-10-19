@@ -1,0 +1,41 @@
+# Database configuration
+mysql:
+  type: "sqlite"
+  host: "localhost"
+  port: 3306
+  username: "root"
+  password: "example"
+  database: "wallet"
+  ssl: false
+
+# Wallet configuration
+banknotes:
+  - 5
+  - 10
+  - 20
+  - 50
+  - 100
+  - 200
+  - 500
+
+messages:
+  items:
+    banknote:
+      name: "&6Banknote"
+      lore:
+        - "&7Amount: &e$%amount%"
+        - "&7Right-click to withdraw"
+  commands:
+    player-only: "&8» &cOnly players can use this command"
+
+    no-permission: "&8» &cYou don't have permission to use this command"
+    player-not-found: "&8» &cThe player is not online"
+
+    withdraw:
+      usage: "&8» &cUsage: /withdraw <amount>"
+      invalid-amount: "&8» &cInvalid amount"
+      insufficient-balance: "&8» &cInsufficient balance"
+      success: "&8» &aYou have withdrawn &e$%amount% &afrom your wallet"
+  listeners:
+    deposit:
+      success: "&8» &aYou have deposited &e$%amount% &ainto your wallet"
