@@ -18,24 +18,56 @@ banknotes:
   - 200
   - 500
 
+# Documents configuration
+documents:
+  id:
+    material: "PAPER"
+    custom-model-data: 0
+    name: "&aID"
+    lore:
+      - "&7Name: &a%player_name%"
+      - "&7Date of Birth: &a&args_0%"
+  driver-license:
+    material: "PAPER"
+    custom-model-data: 1
+    name: "&cDriver License"
+    lore:
+      - "&7Name: &c%player_name%"
+      - "&7Vehicle Type: &c&args_0%"
+  passport:
+    material: "PAPER"
+    custom-model-data: 2
+    name: "&9Passport"
+    lore:
+      - "&7Name: &9%player_name%"
+      - "&7Nationality: &9&args_0%"
+      - "&7Date of Birth: &9&args_1%"
+      - "&7Gender: &9&args_2%"
+      - "&7Issue Date: &9&args_3%"
+      - "&7Expiry Date: &9&args_4%"
+
+# Messages configuration
 messages:
   items:
     banknote:
       name: "&6Banknote"
       lore:
-        - "&7Amount: &e$%amount%"
-        - "&7Right-click to withdraw"
+        - "&7Amount: &6$%amount%"
+        - "&r"
+        - "&7&o(( Right click to deposit ))"
+    wallet:
+      name: "&uWallet"
   commands:
     player-only: "&8» &cOnly players can use this command"
-
     no-permission: "&8» &cYou don't have permission to use this command"
     player-not-found: "&8» &cThe player is not online"
-
     withdraw:
       usage: "&8» &cUsage: /withdraw <amount>"
       invalid-amount: "&8» &cInvalid amount"
       insufficient-balance: "&8» &cInsufficient balance"
       success: "&8» &aYou have withdrawn &e$%amount% &afrom your wallet"
+    get:
+      success: "&8» &aYou have received &e$%amount% &afrom &e%player%"
   listeners:
     deposit:
       success: "&8» &aYou have deposited &e$%amount% &ainto your wallet"

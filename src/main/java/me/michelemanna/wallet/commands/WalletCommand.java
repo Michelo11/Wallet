@@ -1,6 +1,7 @@
 package me.michelemanna.wallet.commands;
 
 import me.michelemanna.wallet.WalletPlugin;
+import me.michelemanna.wallet.commands.subcommands.GetCommand;
 import me.michelemanna.wallet.commands.subcommands.WithdrawCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -17,6 +18,7 @@ public class WalletCommand implements TabExecutor {
 
     public WalletCommand(WalletPlugin plugin) {
         subCommands.put("withdraw", new WithdrawCommand());
+        subCommands.put("get", new GetCommand());
     }
 
     @Override
