@@ -26,25 +26,28 @@ documents:
     name: "&aID"
     lore:
       - "&7Name: &a%player_name%"
-      - "&7Date of Birth: &a&args_0%"
+      - "&7Date of Birth: &a%args_0%"
+    arguments: 1
   driver-license:
     material: "PAPER"
     custom-model-data: 1
     name: "&cDriver License"
     lore:
       - "&7Name: &c%player_name%"
-      - "&7Vehicle Type: &c&args_0%"
+      - "&7Vehicle Type: &c%args_0%"
+    arguments: 1
   passport:
     material: "PAPER"
     custom-model-data: 2
     name: "&9Passport"
     lore:
       - "&7Name: &9%player_name%"
-      - "&7Nationality: &9&args_0%"
-      - "&7Date of Birth: &9&args_1%"
-      - "&7Gender: &9&args_2%"
-      - "&7Issue Date: &9&args_3%"
-      - "&7Expiry Date: &9&args_4%"
+      - "&7Nationality: &9%args_0%"
+      - "&7Date of Birth: &9%args_1%"
+      - "&7Gender: &9%args_2%"
+      - "&7Issue Date: &9%args_3%"
+      - "&7Expiry Date: &9%args_4%"
+    arguments: 5
 
 # Messages configuration
 messages:
@@ -61,13 +64,23 @@ messages:
     player-only: "&8» &cOnly players can use this command"
     no-permission: "&8» &cYou don't have permission to use this command"
     player-not-found: "&8» &cThe player is not online"
+    document-type-not-found: "&8» &cThe document type is not found"
     withdraw:
       usage: "&8» &cUsage: /withdraw <amount>"
       invalid-amount: "&8» &cInvalid amount"
       insufficient-balance: "&8» &cInsufficient balance"
       success: "&8» &aYou have withdrawn &e$%amount% &afrom your wallet"
-    get:
-      success: "&8» &aYou have received &e$%amount% &afrom &e%player%"
+    help:
+      - "&6&m-------&f&m-------&6&m-------&f&m-------&6&m-------&f&m-------"
+      - "&r   &fRunning &6Wallet&f by &6Michelo11"
+      - "&r"
+      - "&f/wallet give <player> <type> &8»&f Give a document to a player"
+      - "&f/wallet withdraw <amount> &8»&f Deposit money into your wallet"
+      - "&6&m-------&f&m-------&6&m-------&f&m-------&6&m-------&f&m-------"
+    give:
+      usage: "&8» &cUsage: /wallet give <player> <type>"
+      document-args: "&8» &cInvalid document arguments"
+      success: "&8» &aYou have given &e%player% &athe &e%type% &adocument"
   listeners:
     deposit:
       success: "&8» &aYou have deposited &e$%amount% &ainto your wallet"

@@ -1,25 +1,40 @@
 package me.michelemanna.wallet;
 
 import me.michelemanna.wallet.commands.WalletCommand;
+import me.michelemanna.wallet.config.DocumentType;
 import me.michelemanna.wallet.listeners.BanknoteListener;
 import me.michelemanna.wallet.managers.DatabaseManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public final class WalletPlugin extends JavaPlugin {
     private static WalletPlugin instance;
     private DatabaseManager databaseManager;
     private Economy economy;
+    final Map<String, DocumentType> documentTypes = new HashMap<>();
 
     @Override
     public void onEnable() {
         this.saveDefaultConfig();
         instance = this;
+
+        for (String key: this.getConfig().getConfigurationSection("documents").getKeys(false)) {
+            String path = "documents." + key;
+            Material material = Material.matchMaterial(this.getConfig().getString(path + ".material"));
+            int customModelData = this.getConfig().getInt(path + ".customModelData");
+            String name = this.getConfig().getString(path + ".name");
+            List<String> lore = this.getConfig().getStringList(path + ".lore");
+            int arguments = this.getConfig().getInt(path + ".arguments");
+            this.documentTypes.put(key, new DocumentType(key, material, customModelData, name, lore, arguments));
+        }
 
         try {
             this.databaseManager = new DatabaseManager(this);
@@ -51,5 +66,13 @@ public final class WalletPlugin extends JavaPlugin {
 
     public static WalletPlugin getInstance() {
         return instance;
+    }
+
+    public Map<String, DocumentType> getDocumentTypes() {
+        return documentTypes;
+    }
+
+    public DatabaseManager getDatabaseManager() {
+        return databaseManager;
     }
 }

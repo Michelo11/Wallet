@@ -1,8 +1,10 @@
 package me.michelemanna.wallet.commands;
 
 import me.michelemanna.wallet.WalletPlugin;
-import me.michelemanna.wallet.commands.subcommands.GetCommand;
+import me.michelemanna.wallet.commands.subcommands.GiveCommand;
+import me.michelemanna.wallet.commands.subcommands.HelpCommand;
 import me.michelemanna.wallet.commands.subcommands.WithdrawCommand;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -18,7 +20,8 @@ public class WalletCommand implements TabExecutor {
 
     public WalletCommand(WalletPlugin plugin) {
         subCommands.put("withdraw", new WithdrawCommand());
-        subCommands.put("get", new GetCommand());
+        subCommands.put("give", new GiveCommand());
+        subCommands.put("help", new HelpCommand());
     }
 
     @Override
@@ -44,6 +47,19 @@ public class WalletCommand implements TabExecutor {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
-        return new ArrayList<>(this.subCommands.keySet());
+        if (args.length == 1) {
+            return new ArrayList<>(this.subCommands.keySet());
+        }
+
+        if (args.length > 1 && args[0].equalsIgnoreCase("give")) {
+            if (args.length == 2) return Bukkit.getOnlinePlayers().stream().map(Player::getName).toList();
+            if (args.length == 3) return new ArrayList<>(WalletPlugin.getInstance().getDocumentTypes().keySet());
+        }
+
+        if (args.length > 1 && args[0].equalsIgnoreCase("withdraw")) {
+            if (args.length == 2) return WalletPlugin.getInstance().getConfig().getIntegerList("banknotes").stream().sorted().map(String::valueOf).toList();
+        }
+
+        return new ArrayList<>();
     }
 }

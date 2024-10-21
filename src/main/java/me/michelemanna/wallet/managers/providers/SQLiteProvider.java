@@ -26,11 +26,11 @@ public class SQLiteProvider implements ConnectionProvider {
         this.connection = DriverManager.getConnection("jdbc:sqlite:" + file.getAbsolutePath());
         Statement statement = connection.createStatement();
 
-        statement.executeUpdate("CREATE TABLE IF NOT EXISTS `document` (" +
+        statement.executeUpdate("CREATE TABLE IF NOT EXISTS `documents` (" +
                 "`uuid` VARCHAR(36) NOT NULL PRIMARY KEY, " +
                 "`type` TEXT NOT NULL, " +
                 "`player` VARCHAR(36) NOT NULL, " +
-                "`metadata` TEXT NOT NULL)");
+                "`arguments` TEXT NOT NULL)");
 
         statement.close();
     }
