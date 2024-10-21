@@ -1,7 +1,7 @@
 <br/>
 <p align="center">
   <a href="https://github.com/Michelo11/Wallet">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="images/logo.png" alt="Logo" width="100">
   </a>
 
   <h3 align="center">Wallet</h3>
