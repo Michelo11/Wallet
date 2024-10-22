@@ -11,7 +11,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.List;
 import java.util.UUID;
 
-public record DocumentType(String type, Material material, int customModelData, String name, List<String> lore, int arguments) {
+public record DocumentType(String type, Material material, int customModelData, String name, List<String> lore, int arguments, List<String> hooks) {
     public void give(Player player, String[] args, UUID uuid) {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
@@ -24,6 +24,7 @@ public record DocumentType(String type, Material material, int customModelData, 
 
         NBT.modify(item, (nbt) -> {
             nbt.setString("document", uuid.toString());
+            nbt.setString("document-type", type);
         });
 
         player.getInventory().addItem(item);

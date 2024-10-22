@@ -10,3 +10,5 @@ commands:
 depend:
   - Vault
   - PlaceholderAPI
+softdepend:
+  - QualityArmoryVehicles2

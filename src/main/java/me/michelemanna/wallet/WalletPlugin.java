@@ -3,8 +3,10 @@ package me.michelemanna.wallet;
 import me.michelemanna.wallet.commands.WalletCommand;
 import me.michelemanna.wallet.config.DocumentType;
 import me.michelemanna.wallet.listeners.BanknoteListener;
+import me.michelemanna.wallet.listeners.QAVListener;
 import me.michelemanna.wallet.managers.DatabaseManager;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,7 +35,8 @@ public final class WalletPlugin extends JavaPlugin {
             String name = this.getConfig().getString(path + ".name");
             List<String> lore = this.getConfig().getStringList(path + ".lore");
             int arguments = this.getConfig().getInt(path + ".arguments");
-            this.documentTypes.put(key, new DocumentType(key, material, customModelData, name, lore, arguments));
+            List<String> hooks = this.getConfig().getStringList(path + ".hooks");
+            this.documentTypes.put(key, new DocumentType(key, material, customModelData, name, lore, arguments, hooks));
         }
 
         try {
@@ -45,6 +48,10 @@ public final class WalletPlugin extends JavaPlugin {
         this.economy = this.getServer().getServicesManager().getRegistration(Economy.class).getProvider();
         this.getCommand("wallet").setExecutor(new WalletCommand(this));
         this.getServer().getPluginManager().registerEvents(new BanknoteListener(), this);
+
+        if (Bukkit.getPluginManager().isPluginEnabled("QualityArmoryVehicles2")) {
+            this.getServer().getPluginManager().registerEvents(new QAVListener(), this);
+        }
     }
 
     @Override

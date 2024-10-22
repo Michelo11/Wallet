@@ -36,6 +36,8 @@ documents:
       - "&7Name: &c%player_name%"
       - "&7Vehicle Type: &c%args_0%"
     arguments: 1
+    hooks:
+      - "QualityArmoryVehicles2"
   passport:
     material: "PAPER"
     custom-model-data: 2
@@ -84,3 +86,5 @@ messages:
   listeners:
     deposit:
       success: "&8» &aYou have deposited &e$%amount% &ainto your wallet"
+    vehicle:
+      no-license: "&8» &cYou don't have a driver license"
