@@ -62,6 +62,10 @@ messages:
         - "&7&o(( Right click to deposit ))"
     wallet:
       name: "&uWallet"
+    card:
+      name: "&f&lCard"
+    atm:
+      name: "&eATM"
   commands:
     player-only: "&8» &cOnly players can use this command"
     no-permission: "&8» &cYou don't have permission to use this command"
@@ -83,8 +87,19 @@ messages:
       usage: "&8» &cUsage: /wallet give <player> <type>"
       document-args: "&8» &cInvalid document arguments"
       success: "&8» &aYou have given &e%player% &athe &e%type% &adocument"
+    getcard:
+      usage: "&8» &cUsage: /wallet getcard <player>"
+      success: "&8» &aYou have received the card of &e%player%&a. The pin is &e%pin%"
   listeners:
     deposit:
       success: "&8» &aYou have deposited &e$%amount% &ainto your wallet"
     vehicle:
       no-license: "&8» &cYou don't have a driver license"
+  conversations:
+    atm:
+      pin:
+        prompt: "&8» &7Please enter your pin"
+        invalid: "&8» &cInvalid pin"
+      amount:
+        prompt: "&8» &7Please enter the amount"
+        invalid: "&8» &cInvalid amount"

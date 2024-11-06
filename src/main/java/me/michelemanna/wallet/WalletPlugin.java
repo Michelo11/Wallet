@@ -1,7 +1,9 @@
 package me.michelemanna.wallet;
 
+import de.tr7zw.changeme.nbtapi.NBT;
 import me.michelemanna.wallet.commands.WalletCommand;
 import me.michelemanna.wallet.config.DocumentType;
+import me.michelemanna.wallet.listeners.ATMListener;
 import me.michelemanna.wallet.listeners.BanknoteListener;
 import me.michelemanna.wallet.listeners.QAVListener;
 import me.michelemanna.wallet.managers.DatabaseManager;
@@ -9,12 +11,17 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public final class WalletPlugin extends JavaPlugin {
@@ -48,6 +55,7 @@ public final class WalletPlugin extends JavaPlugin {
         this.economy = this.getServer().getServicesManager().getRegistration(Economy.class).getProvider();
         this.getCommand("wallet").setExecutor(new WalletCommand(this));
         this.getServer().getPluginManager().registerEvents(new BanknoteListener(), this);
+        this.getServer().getPluginManager().registerEvents(new ATMListener(), this);
 
         if (Bukkit.getPluginManager().isPluginEnabled("QualityArmoryVehicles2")) {
             this.getServer().getPluginManager().registerEvents(new QAVListener(), this);
@@ -57,6 +65,38 @@ public final class WalletPlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         this.databaseManager.close();
+    }
+
+    public void withdraw(Player player, int amount, UUID cardOwner) {
+        if (!this.getConfig().getIntegerList("banknotes").contains(amount)) {
+            player.sendMessage(this.getMessage("commands.withdraw.invalid-amount"));
+            return;
+        }
+
+        OfflinePlayer target = Bukkit.getOfflinePlayer(cardOwner);
+
+        if (!this.getEconomy().has(target, amount)) {
+            player.sendMessage(this.getMessage("commands.withdraw.insufficient-balance"));
+            return;
+        }
+
+        this.getEconomy().withdrawPlayer(target, amount);
+
+        ItemStack item = new ItemStack(Material.PAPER);
+        ItemMeta meta = item.getItemMeta();
+
+        meta.setDisplayName(this.getMessage("items.banknote.name").replace("%amount%", String.valueOf(amount)));
+        meta.setLore(this.getMessages("items.banknote.lore").stream().map(s -> s.replace("%amount%", String.valueOf(amount))).collect(Collectors.toList()));
+
+        item.setItemMeta(meta);
+
+        NBT.modify(item, (nbt) -> {
+            nbt.setInteger("banknote", amount);
+        });
+
+        player.getInventory().addItem(item);
+
+        player.sendMessage(this.getMessage("commands.withdraw.success").replace("%amount%", String.valueOf(amount)));
     }
 
     public List<String> getMessages(String path) {
