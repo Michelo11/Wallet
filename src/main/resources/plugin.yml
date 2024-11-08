@@ -12,3 +12,4 @@ depend:
   - PlaceholderAPI
 softdepend:
   - QualityArmoryVehicles2
+  - Phone

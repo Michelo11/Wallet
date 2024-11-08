@@ -20,7 +20,7 @@ import java.util.UUID;
 public class ATMListener implements Listener {
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
-        if (!event.getItemInHand().getType().equals(Material.IRON_BLOCK)) return;
+        if (!event.getItemInHand().getType().equals(Material.valueOf(WalletPlugin.getInstance().getConfig().getString("atm-material")))) return;
 
         boolean atm = NBT.get(event.getItemInHand(), (nbt) -> {
             return nbt.hasTag("is-atm");
@@ -39,7 +39,7 @@ public class ATMListener implements Listener {
 
         Block block = event.getClickedBlock();
 
-        if (block == null || !block.getType().equals(Material.IRON_BLOCK)) return;
+        if (block == null || !block.getType().equals(Material.valueOf(WalletPlugin.getInstance().getConfig().getString("atm-material")))) return;
 
         ReadWriteNBT nbt = new NBTBlock(block).getData();
 
@@ -54,6 +54,8 @@ public class ATMListener implements Listener {
         });
 
         String cardOwner = NBT.get(hand, (item) -> {
+            if (!item.hasTag("card-owner")) return null;
+
             return item.getString("card-owner");
         });
 

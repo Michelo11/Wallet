@@ -8,6 +8,11 @@ mysql:
   database: "wallet"
   ssl: false
 
+# Plugin configuration
+resourcepack:
+  enabled: true
+  url: "https://github.com/Michelo11/Wallet/releases/download/v1.0/Wallet.zip"
+
 # Wallet configuration
 banknotes:
   - 5
@@ -17,6 +22,9 @@ banknotes:
   - 100
   - 200
   - 500
+
+# Wallet items configuration
+atm-material: "BROWN_GLAZED_TERRACOTTA"
 
 # Documents configuration
 documents:
@@ -50,6 +58,16 @@ documents:
       - "&7Issue Date: &9%args_3%"
       - "&7Expiry Date: &9%args_4%"
     arguments: 5
+  sim:
+    material: "PAPER"
+    custom-model-data: 3
+    name: "&2SIM Card"
+    lore:
+      - "&7Name: &2%player_name%"
+      - "&7Number: &2%args_0%"
+    arguments: 1
+    hooks:
+      - "Phone"
 
 # Messages configuration
 messages:
@@ -95,6 +113,8 @@ messages:
       success: "&8» &aYou have deposited &e$%amount% &ainto your wallet"
     vehicle:
       no-license: "&8» &cYou don't have a driver license"
+    phone:
+      no-sim: "&8» &cYou don't have a sim card"
   conversations:
     atm:
       pin:

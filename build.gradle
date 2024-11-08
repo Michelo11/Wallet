@@ -26,12 +26,20 @@ repositories {
     maven {
         url = "https://repo.extendedclip.com/content/repositories/placeholderapi/"
     }
+    maven {
+        url = "https://maven.pkg.github.com/Michelo11/Phone"
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+        }
+    }
 }
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21.1-R0.1-SNAPSHOT")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7")
     compileOnly("me.clip:placeholderapi:2.11.6")
+    compileOnly("me.michelemanna:phone:1.10")
     compileOnly(files("libs/QualityArmoryVehicles.jar"))
     implementation("com.zaxxer:HikariCP:6.0.0")
     implementation("de.tr7zw:item-nbt-api:2.13.2")

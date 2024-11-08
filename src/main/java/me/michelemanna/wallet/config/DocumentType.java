@@ -25,6 +25,7 @@ public record DocumentType(String type, Material material, int customModelData, 
         NBT.modify(item, (nbt) -> {
             nbt.setString("document", uuid.toString());
             nbt.setString("document-type", type);
+            nbt.setString("document-owner", player.getUniqueId().toString());
         });
 
         player.getInventory().addItem(item);

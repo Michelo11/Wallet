@@ -3,9 +3,7 @@ package me.michelemanna.wallet;
 import de.tr7zw.changeme.nbtapi.NBT;
 import me.michelemanna.wallet.commands.WalletCommand;
 import me.michelemanna.wallet.config.DocumentType;
-import me.michelemanna.wallet.listeners.ATMListener;
-import me.michelemanna.wallet.listeners.BanknoteListener;
-import me.michelemanna.wallet.listeners.QAVListener;
+import me.michelemanna.wallet.listeners.*;
 import me.michelemanna.wallet.managers.DatabaseManager;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -56,9 +54,14 @@ public final class WalletPlugin extends JavaPlugin {
         this.getCommand("wallet").setExecutor(new WalletCommand(this));
         this.getServer().getPluginManager().registerEvents(new BanknoteListener(), this);
         this.getServer().getPluginManager().registerEvents(new ATMListener(), this);
+        this.getServer().getPluginManager().registerEvents(new PlayerListener(), this);
 
         if (Bukkit.getPluginManager().isPluginEnabled("QualityArmoryVehicles2")) {
             this.getServer().getPluginManager().registerEvents(new QAVListener(), this);
+        }
+
+        if (Bukkit.getPluginManager().isPluginEnabled("Phone")) {
+            this.getServer().getPluginManager().registerEvents(new PhoneListener(), this);
         }
     }
 

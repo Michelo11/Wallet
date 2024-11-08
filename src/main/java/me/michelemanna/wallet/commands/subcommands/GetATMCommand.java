@@ -16,7 +16,7 @@ public class GetATMCommand implements SubCommand {
             return;
         }
 
-        ItemStack item = new ItemStack(Material.IRON_BLOCK);
+        ItemStack item = new ItemStack(Material.valueOf(WalletPlugin.getInstance().getConfig().getString("atm-material")));
         ItemMeta meta = item.getItemMeta();
 
         meta.setCustomModelData(101);
