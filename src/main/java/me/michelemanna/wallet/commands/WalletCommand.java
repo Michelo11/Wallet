@@ -61,7 +61,7 @@ public class WalletCommand implements TabExecutor {
         }
 
         if (args.length > 1 && args[0].equalsIgnoreCase("withdraw")) {
-            if (args.length == 2) return WalletPlugin.getInstance().getConfig().getIntegerList("banknotes").stream().sorted().map(String::valueOf).toList();
+            if (args.length == 2) return WalletPlugin.getInstance().getConfig().getConfigurationSection("banknotes").getKeys(false).stream().toList();
         }
 
         return new ArrayList<>();

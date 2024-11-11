@@ -1,7 +1,7 @@
 name: Wallet
-version: '1.0'
+version: '${version}'
 main: me.michelemanna.wallet.WalletPlugin
-api-version: '1.21'
+api-version: '1.13'
 authors: [ Michelo11 ]
 website: https://michelemanna.me
 commands:

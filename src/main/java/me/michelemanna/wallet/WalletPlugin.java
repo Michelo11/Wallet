@@ -33,6 +33,15 @@ public final class WalletPlugin extends JavaPlugin {
         this.saveDefaultConfig();
         instance = this;
 
+        if (this.getConfig().get("banknotes") instanceof List<?>) {
+            List<Integer> banknotes = this.getConfig().getIntegerList("banknotes");
+            this.getConfig().set("banknotes", null);
+
+            for (int banknote: banknotes) {
+                this.getConfig().set("banknotes." + banknote, banknote);
+            }
+        }
+
         for (String key: this.getConfig().getConfigurationSection("documents").getKeys(false)) {
             String path = "documents." + key;
             Material material = Material.matchMaterial(this.getConfig().getString(path + ".material"));
@@ -71,7 +80,7 @@ public final class WalletPlugin extends JavaPlugin {
     }
 
     public void withdraw(Player player, int amount, UUID cardOwner) {
-        if (!this.getConfig().getIntegerList("banknotes").contains(amount)) {
+        if (!this.getConfig().contains("banknotes." + amount)) {
             player.sendMessage(this.getMessage("commands.withdraw.invalid-amount"));
             return;
         }
@@ -90,6 +99,7 @@ public final class WalletPlugin extends JavaPlugin {
 
         meta.setDisplayName(this.getMessage("items.banknote.name").replace("%amount%", String.valueOf(amount)));
         meta.setLore(this.getMessages("items.banknote.lore").stream().map(s -> s.replace("%amount%", String.valueOf(amount))).collect(Collectors.toList()));
+        meta.setCustomModelData(this.getConfig().getInt("banknotes." + amount));
 
         item.setItemMeta(meta);
 
