@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'me.michelemanna'
-version = '1.2.2'
+version = '1.2.3'
 
 repositories {
     mavenCentral()
@@ -30,7 +30,7 @@ repositories {
         url = "https://maven.pkg.github.com/Michelo11/Phone"
         credentials {
             username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+            password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
         }
     }
 }

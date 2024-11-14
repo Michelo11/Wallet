@@ -45,7 +45,7 @@ public final class WalletPlugin extends JavaPlugin {
         for (String key: this.getConfig().getConfigurationSection("documents").getKeys(false)) {
             String path = "documents." + key;
             Material material = Material.matchMaterial(this.getConfig().getString(path + ".material"));
-            int customModelData = this.getConfig().getInt(path + ".customModelData");
+            int customModelData = this.getConfig().getInt(path + ".custom-model-data");
             String name = this.getConfig().getString(path + ".name");
             List<String> lore = this.getConfig().getStringList(path + ".lore");
             int arguments = this.getConfig().getInt(path + ".arguments");
