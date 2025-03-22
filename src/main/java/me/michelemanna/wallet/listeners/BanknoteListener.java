@@ -10,11 +10,11 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class BanknoteListener implements Listener {
+
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        ItemStack item = event.getItem();
-
-        if (item == null || !item.getType().equals(Material.PAPER)) return;
+        ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
+        if (!item.getType().equals(Material.PAPER)) return;
 
         int amount = NBT.get(item, (nbt) -> {
             if (!nbt.hasTag("banknote")) return -1;
@@ -32,4 +32,5 @@ public class BanknoteListener implements Listener {
 
         event.getPlayer().playSound(event.getPlayer(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
     }
+
 }
