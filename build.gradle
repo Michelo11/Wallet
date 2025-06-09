@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'me.michelemanna'
-version = '1.2.6'
+version = '1.2.7'
 
 repositories {
     mavenCentral()
@@ -39,7 +39,7 @@ dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21.4-R0.1-SNAPSHOT")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7")
     compileOnly("me.clip:placeholderapi:2.11.6")
-    compileOnly("me.michelemanna:phone:1.10")
+    compileOnly("me.michelemanna:phone:2.0.3")
     compileOnly(files("libs/QualityArmoryVehicles.jar"))
     implementation("com.zaxxer:HikariCP:6.0.0")
     implementation("de.tr7zw:item-nbt-api:2.15.0")
