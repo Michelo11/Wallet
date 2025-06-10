@@ -2,6 +2,7 @@ package me.michelemanna.wallet.config;
 
 import de.tr7zw.changeme.nbtapi.NBT;
 import me.clip.placeholderapi.PlaceholderAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -36,6 +37,12 @@ public record DocumentType(String type, Material material, int customModelData, 
             message = message.replace("%args_" + i + "%", args[i]);
         }
 
-        return ChatColor.translateAlternateColorCodes('&',PlaceholderAPI.setPlaceholders(player, message));
+        message = message.replace("%player_name%", player.getName());
+
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            message = PlaceholderAPI.setPlaceholders(player, message);
+        }
+
+        return ChatColor.translateAlternateColorCodes('&', message);
     }
 }

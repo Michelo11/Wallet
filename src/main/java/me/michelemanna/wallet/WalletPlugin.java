@@ -16,10 +16,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public final class WalletPlugin extends JavaPlugin {
@@ -80,11 +77,6 @@ public final class WalletPlugin extends JavaPlugin {
     }
 
     public void withdraw(Player player, int amount, UUID cardOwner) {
-        if (!this.getConfig().contains("banknotes." + amount)) {
-            player.sendMessage(this.getMessage("commands.withdraw.invalid-amount"));
-            return;
-        }
-
         OfflinePlayer target = Bukkit.getOfflinePlayer(cardOwner);
 
         if (!this.getEconomy().has(target, amount)) {
@@ -94,20 +86,47 @@ public final class WalletPlugin extends JavaPlugin {
 
         this.getEconomy().withdrawPlayer(target, amount);
 
-        ItemStack item = new ItemStack(Material.PAPER);
-        ItemMeta meta = item.getItemMeta();
+        List<Integer> denominations = this.getConfig().getConfigurationSection("banknotes")
+            .getKeys(false)
+            .stream()
+            .map(Integer::parseInt)
+            .sorted(Comparator.reverseOrder())
+            .collect(Collectors.toList());
 
-        meta.setDisplayName(this.getMessage("items.banknote.name").replace("%amount%", String.valueOf(amount)));
-        meta.setLore(this.getMessages("items.banknote.lore").stream().map(s -> s.replace("%amount%", String.valueOf(amount))).collect(Collectors.toList()));
-        meta.setCustomModelData(this.getConfig().getInt("banknotes." + amount));
+        int remainingAmount = amount;
+        Map<Integer, Integer> banknotesToGive = new HashMap<>();
 
-        item.setItemMeta(meta);
+        for (int denomination : denominations) {
+            if (remainingAmount >= denomination) {
+                int count = remainingAmount / denomination;
+                banknotesToGive.put(denomination, count);
+                remainingAmount -= count * denomination;
+            }
+        }
 
-        NBT.modify(item, (nbt) -> {
-            nbt.setInteger("banknote", amount);
-        });
+        for (Map.Entry<Integer, Integer> entry : banknotesToGive.entrySet()) {
+            int denomination = entry.getKey();
+            int count = entry.getValue();
 
-        player.getInventory().addItem(item);
+            for (int i = 0; i < count; i++) {
+                ItemStack item = new ItemStack(Material.PAPER);
+                ItemMeta meta = item.getItemMeta();
+
+                meta.setDisplayName(this.getMessage("items.banknote.name").replace("%amount%", String.valueOf(denomination)));
+                meta.setLore(this.getMessages("items.banknote.lore").stream()
+                    .map(s -> s.replace("%amount%", String.valueOf(denomination)))
+                    .collect(Collectors.toList()));
+                meta.setCustomModelData(this.getConfig().getInt("banknotes." + denomination));
+
+                item.setItemMeta(meta);
+
+                NBT.modify(item, (nbt) -> {
+                    nbt.setInteger("banknote", denomination);
+                });
+
+                player.getInventory().addItem(item);
+            }
+        }
 
         player.sendMessage(this.getMessage("commands.withdraw.success").replace("%amount%", String.valueOf(amount)));
     }

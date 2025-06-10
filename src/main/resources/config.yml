@@ -16,6 +16,7 @@ resourcepack:
 # Wallet configuration
 # Format: value: custom-model-data
 banknotes:
+  1: 1
   5: 5
   10: 10
   20: 20
